@@ -1,4 +1,5 @@
 import { graphql, usePaginationFragment } from "react-relay";
+import { Helmet } from "react-helmet-async";
 import { FilmsFragment$key } from "./__generated__/FilmsFragment.graphql";
 import { FilmCard } from "./FilmCard";
 import { Cards } from "./Cards";
@@ -36,6 +37,7 @@ export const Films = ({ query: queryFragment }: Props) => {
   } = usePaginationFragment(FilmsFragment, queryFragment);
   return (
     <>
+      <Helmet title="All Films" />
       <h1>All Films</h1>
       <Cards>
         {allFilms?.edges?.map(

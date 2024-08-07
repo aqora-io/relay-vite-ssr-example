@@ -1,4 +1,5 @@
 import { graphql, usePaginationFragment } from "react-relay";
+import { Helmet } from "react-helmet-async";
 import { FilmPlanetsFragment$key } from "./__generated__/FilmPlanetsFragment.graphql";
 import { Cards } from "./Cards";
 import { PlanetCard } from "./PlanetCard";
@@ -11,6 +12,7 @@ const FilmPlanetsFragment = graphql`
     first: { type: "Int", defaultValue: 10 }
     after: { type: "String" }
   ) {
+    title
     planetConnection(first: $first, after: $after)
       @connection(key: "FilmPlanetsFragment_planetConnection") {
       edges {
@@ -29,13 +31,14 @@ interface Props {
 
 export const FilmPlanets = ({ film: filmFragment }: Props) => {
   const {
-    data: { planetConnection },
+    data: { title, planetConnection },
     loadNext,
     hasNext,
     isLoadingNext,
   } = usePaginationFragment(FilmPlanetsFragment, filmFragment);
   return (
     <>
+      <Helmet title={`${title} | Planets`} />
       <Cards>
         {planetConnection?.edges?.map(
           (edge) =>

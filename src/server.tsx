@@ -14,6 +14,7 @@ import { Environment } from "react-relay";
 import { createEnvironment } from "./environment";
 import express from "express";
 
+import { HelmetProvider } from "react-helmet-async";
 import { ServerRouter } from "./components/ServerRouter";
 import { RelayEnvironmentProvider } from "react-relay";
 import { ErrorBoundary } from "react-error-boundary";
@@ -84,16 +85,18 @@ export const createContext = async (
 };
 
 export function render(
-  { environment, routes, staticHandlerContext }: Context,
+  { environment, routes, staticHandlerContext, helmetContext }: Context,
   options: RenderToPipeableStreamOptions,
 ) {
   return renderToPipeableStream(
     <React.StrictMode>
-      <ErrorBoundary fallback={<div>Something went wrong!</div>}>
-        <RelayEnvironmentProvider environment={environment}>
-          <ServerRouter routes={routes} context={staticHandlerContext} />
-        </RelayEnvironmentProvider>
-      </ErrorBoundary>
+      <HelmetProvider context={helmetContext}>
+        <ErrorBoundary fallback={<div>Something went wrong!</div>}>
+          <RelayEnvironmentProvider environment={environment}>
+            <ServerRouter routes={routes} context={staticHandlerContext} />
+          </RelayEnvironmentProvider>
+        </ErrorBoundary>
+      </HelmetProvider>
     </React.StrictMode>,
     options,
   );

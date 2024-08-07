@@ -1,4 +1,5 @@
 import { graphql, usePaginationFragment } from "react-relay";
+import { Helmet } from "react-helmet-async";
 import { FilmPeopleFragment$key } from "./__generated__/FilmPeopleFragment.graphql";
 import { Cards } from "./Cards";
 import { PersonCard } from "./PersonCard";
@@ -11,6 +12,7 @@ const FilmPeopleFragment = graphql`
     first: { type: "Int", defaultValue: 10 }
     after: { type: "String" }
   ) {
+    title
     characterConnection(first: $first, after: $after)
       @connection(key: "FilmPeopleFragment_characterConnection") {
       edges {
@@ -29,13 +31,14 @@ interface Props {
 
 export const FilmPeople = ({ film: filmFragment }: Props) => {
   const {
-    data: { characterConnection },
+    data: { title, characterConnection },
     loadNext,
     hasNext,
     isLoadingNext,
   } = usePaginationFragment(FilmPeopleFragment, filmFragment);
   return (
     <>
+      <Helmet title={`${title} | People`} />
       <Cards>
         {characterConnection?.edges?.map(
           (edge) =>

@@ -5,6 +5,7 @@ import { createEnvironment } from "./environment";
 import { RelayEnvironmentProvider } from "react-relay";
 import { ErrorBoundary } from "react-error-boundary";
 import BrowserRouter from "./components/BrowserRouter";
+import { HelmetProvider } from "react-helmet-async";
 
 interface InjectedWindow extends Window {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,10 +23,12 @@ const environment = createEnvironment(
 ReactDOM.hydrateRoot(
   document.getElementById("root")!,
   <React.StrictMode>
-    <ErrorBoundary fallback={<div>Something went wrong :(</div>}>
-      <RelayEnvironmentProvider environment={environment}>
-        <BrowserRouter />
-      </RelayEnvironmentProvider>
-    </ErrorBoundary>
+    <HelmetProvider>
+      <ErrorBoundary fallback={<div>Something went wrong :(</div>}>
+        <RelayEnvironmentProvider environment={environment}>
+          <BrowserRouter />
+        </RelayEnvironmentProvider>
+      </ErrorBoundary>
+    </HelmetProvider>
   </React.StrictMode>,
 );
