@@ -10,7 +10,7 @@ const port = process.env.PORT || 8080;
 const base = process.env.BASE || "/";
 const ABORT_DELAY = 10000;
 const GRAPHQL_URL = new URL(
-  "https://swapi-graphql.netlify.app/.netlify/functions/index",
+  "https://swapi-graphql.netlify.app/graphql",
 );
 
 // Cached production assets
